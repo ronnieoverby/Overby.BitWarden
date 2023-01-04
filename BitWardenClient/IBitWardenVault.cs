@@ -160,7 +160,7 @@ public interface IBitWardenVault
         bool? special = default,
         bool? passphrase = default,
         int? words = default,
-        string separator = default,
+        char? separator = default,
         bool? capitalize = default,
         bool? includeNumber = default
     );
