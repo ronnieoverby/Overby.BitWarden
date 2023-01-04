@@ -8,9 +8,10 @@ namespace BitWardenClient;
 public static class BitWardenClientFactory
 {
     public const string DefaultBaseUrl = "http://localhost:8087";
-    
+
     public static IBitWardenVault CreateVaultClient(string baseUrl = DefaultBaseUrl,
-        RequestModifier requestModifier = default) => RestClient.For<IBitWardenVault>(baseUrl, requestModifier);
+        RequestModifier requestModifier = default) => new RestClient(baseUrl, requestModifier)
+        { RequestQueryParamSerializer = new BitWardenRequestQueryParamSerializer() }.For<IBitWardenVault>();
 
     public static IBitWardenVault CreateVaultClient(Action<HttpRequestMessage> requestModifier, string baseUrl = DefaultBaseUrl ) =>
         CreateVaultClient(baseUrl, requestModifier: (r, _) =>

@@ -5,14 +5,19 @@ using RestEase;
 
 namespace BitWardenClient;
 
+/// <remarks>
+/// boolean query params are decorated with [Query(QuerySerializationMethod.Serialized)]
+/// so that <see cref="BitWardenRequestQueryParamSerializer"/> will be invoked.
+/// </remarks>
 [Header("User-Agent", "RestEase")]
 public interface IBitWardenVault
 {
     #region Lock & Unlock
+
     #endregion
-    
+
     #region Vault Items
-    
+
     /// <summary>
     /// Add a new login, card, secure note, or identity to your vault.
     /// </summary>
@@ -57,11 +62,12 @@ public interface IBitWardenVault
         string folderid = null,
         string url = null,
         string search = null,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? trash = null
     );
-    
+
     #endregion
-    
+
     #region Attachments & Fields
 
     /// <summary>
@@ -83,9 +89,9 @@ public interface IBitWardenVault
     /// </summary>
     [Delete("object/attachment/{id}")]
     Task<Response> DeleteAttachment([Path] string id, string itemid);
-    
+
     #endregion
-    
+
     #region Folders
 
     /// <summary>
@@ -100,12 +106,13 @@ public interface IBitWardenVault
     /// however you can specify search terms as query parameters to narrow list results.
     [Get("list/object/folders")]
     Task<Response<Object<Folder[]>>> GetFolders(string search = null);
-    
+
     #endregion
-    
+
     #region Send
+
     #endregion
-    
+
     #region Collections & Organizations
 
     /// <summary>
@@ -116,7 +123,7 @@ public interface IBitWardenVault
     /// </summary>
     [Get("list/object/collections")]
     Task<Response<Object<Collection[]>>> GetCollections(string search = default);
-    
+
     /// <summary>
     /// List Organizations of which you are a member.
     /// By default, this will return a list of all Organizations,
@@ -130,9 +137,9 @@ public interface IBitWardenVault
     /// </summary>
     [Get("list/object/org-members")]
     Task<Response<Object<OrgMember[]>>> GetOrganizationMembers(string organizationid);
-    
+
     #endregion
-    
+
     #region Miscellaneous
 
     /// <summary>
@@ -140,7 +147,7 @@ public interface IBitWardenVault
     /// </summary>
     [Post("sync")]
     Task<Response<Message>> Sync();
-    
+
     /// <summary>
     /// Get the current serverURL, lastSync, userEmail, userID, and status of your BitWarden CLI client.
     /// </summary>
@@ -154,14 +161,21 @@ public interface IBitWardenVault
     [Get("generate")]
     Task<Response<Object<string>>> Generate(
         int? length = null,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? uppercase = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? lowercase = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? number = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? special = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? passphrase = default,
         int? words = default,
         char? separator = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? capitalize = default,
+        [Query(QuerySerializationMethod.Serialized)]
         bool? includeNumber = default
     );
 
@@ -177,8 +191,6 @@ public interface IBitWardenVault
     /// </summary>
     [Get("object/fingerprint/me")]
     Task<Response<Object<string>>> GetFingerprintPhrase();
-    
+
     #endregion
-    
-    
 }
